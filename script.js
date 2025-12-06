@@ -14,7 +14,7 @@ const expandBtn = document.getElementById("expandBtn");
 
 function updatePage() {
     const pageStr = String(currentPage).padStart(2, "0"); // 01, 02, 03…
-    img.src = `paginas/${pageStr}.png`;
+    img.src = `${pageStr}.png`;
     indicator.textContent = `Página ${currentPage} / ${totalPages}`;
 }
 
