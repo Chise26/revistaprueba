@@ -87,8 +87,10 @@ if (prevBtn) prevBtn.addEventListener("click", (ev) => { ev.stopPropagation(); g
 if (nextBtn) nextBtn.addEventListener("click", (ev) => { ev.stopPropagation(); goNext(); });
 if (expandBtn) expandBtn.addEventListener("click", (ev) => {
     ev.stopPropagation();
+
+    // entrar a fullscreen del contenedor de imágenes
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen?.();
+        pageWrapper.requestFullscreen?.();
     } else {
         document.exitFullscreen?.();
     }
