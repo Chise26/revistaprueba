@@ -57,22 +57,16 @@ button:hover {
 .page-wrapper {
     position: relative;
     width: 100%;
-    height: 85vh;
+    height: calc(100vh - 120px);
     overflow: hidden;
     background: transparent;
 }
 
-/*
- Las imágenes son absolutas para permitir zoom y pan.
- Mantienen el estilo de revista.
-*/
-
 .page {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;                  /* ⬅ arregla el descuadre */
     max-height: 100%;
-    max-width: 48%;   /* cada página ocupa la mitad */
+    max-width: 48%;
     object-fit: contain;
 
     background: #fff;
@@ -82,6 +76,7 @@ button:hover {
     transition: transform 0.1s ease-out;
     cursor: grab;
 }
+
 
 /* Página izquierda */
 #leftPage {
