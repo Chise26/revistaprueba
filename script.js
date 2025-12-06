@@ -1,10 +1,10 @@
 // --------------------------
 // CONFIGURACIÓN
 // --------------------------
-const totalPages = 10;   // ← CAMBIA ESTO
+const totalPages = 6;   // ← CAMBIA ESTO
 // --------------------------
 
-let currentPage = 1;
+let currentPage = 2;
 
 const img = document.getElementById("pageImage");
 const indicator = document.getElementById("pageIndicator");
@@ -19,7 +19,7 @@ function updatePage() {
 }
 
 prevBtn.onclick = () => {
-    if (currentPage > 1) {
+    if (currentPage > 2) {
         currentPage--;
         updatePage();
     }
