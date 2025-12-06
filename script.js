@@ -1,75 +1,100 @@
+// -------------------------
+// CONFIGURACIÓN
+// -------------------------
 const startPage = 2;
 const endPage = 7;
 
-let currentPage = startPage;
+// La portada es la página 2
+const coverPage = 2;
 
-const img = document.getElementById("pageImage");
+let currentPage = coverPage;
+
+// Elementos
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
 const indicator = document.getElementById("pageIndicator");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const expandBtn = document.getElementById("expandBtn");
 
-function updatePage() {
-    img.src = `${currentPage}.png`;
-    indicator.textContent = `Página ${currentPage - startPage + 1} / ${endPage - startPage + 1}`;
+// -------------------------
+// ACTUALIZAR PÁGINAS
+// -------------------------
+function updatePages() {
+
+    if (currentPage === coverPage) {
+        // Mostrar solo portada
+        leftPage.classList.add("hidden");
+        rightPage.classList.remove("hidden");
+
+        rightPage.src = `${coverPage}.png`;
+        indicator.textContent = `Página 1 / ${endPage - startPage + 1}`;
+        return;
+    }
+
+    // Mostrar dos páginas
+    leftPage.classList.remove("hidden");
+    rightPage.classList.remove("hidden");
+
+    // Página izquierda (impar)
+    leftPage.src = `${currentPage}.png`;
+
+    // Página derecha (siguiente)
+    const next = currentPage + 1;
+    rightPage.src = next <= endPage ? `${next}.png` : "";
+
+    const numShown = currentPage - startPage + 1;
+    indicator.textContent = `Página ${numShown} - ${numShown + 1} / ${endPage - startPage + 1}`;
 }
 
+// -------------------------
+// NAVEGACIÓN
+// -------------------------
 function goPrev() {
+    if (currentPage === coverPage) return;
+
     if (currentPage > startPage) {
-        currentPage--;
-        updatePage();
+        currentPage -= 2;
+        if (currentPage < startPage) currentPage = startPage;
+        updatePages();
     }
 }
 
 function goNext() {
-    if (currentPage < endPage) {
-        currentPage++;
-        updatePage();
+    let next = currentPage === coverPage ? currentPage + 1 : currentPage + 2;
+
+    if (next <= endPage) {
+        currentPage = next;
+        updatePages();
     }
 }
 
-// ------------------------------
-// CONTROLES BOTONES
-// ------------------------------
 prevBtn.onclick = goPrev;
 nextBtn.onclick = goNext;
 
 // Pantalla completa
 expandBtn.onclick = () => {
-    img.requestFullscreen();
+    document.documentElement.requestFullscreen();
 };
 
-// ------------------------------
-// 1) NAVEGACIÓN CON TECLADO
-// ------------------------------
-document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-        goPrev();
-    } else if (e.key === "ArrowRight") {
-        goNext();
-    }
+// -------------------------
+// CLIC EN LADOS DE LA PANTALLA
+// -------------------------
+document.addEventListener("click", (e) => {
+    const mid = window.innerWidth / 2;
+    if (e.clientX < mid) goPrev();
+    else goNext();
 });
 
-// ------------------------------
-// 2) NAVEGACIÓN HACIENDO CLICK EN LA IMAGEN
-//    - click izquierdo → avanzar
-//    - click en lado izquierdo → retroceder
-// ------------------------------
-img.addEventListener("click", (e) => {
-    const x = e.clientX;
-
-    if (x < window.innerWidth / 2) {
-        // Clic en la mitad izquierda
-        goPrev();
-    } else {
-        // Clic en la mitad derecha
-        goNext();
-    }
+// -------------------------
+// FLECHAS DEL TECLADO
+// -------------------------
+document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") goPrev();
+    if (e.key === "ArrowRight") goNext();
 });
 
 // Inicializar
-updatePage();
+updatePages();
 
-};
-updatePage();
 
