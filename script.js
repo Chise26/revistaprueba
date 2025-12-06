@@ -31,7 +31,5 @@ nextBtn.onclick = () => {
 expandBtn.onclick = () => {
     img.requestFullscreen();
 };
-
-// Inicializa
 updatePage();
 
