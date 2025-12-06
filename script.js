@@ -4,9 +4,7 @@
 const startPage = 2;
 const endPage = 7;
 
-// La portada es la página 2
 const coverPage = 2;
-
 let currentPage = coverPage;
 
 // Elementos
@@ -23,52 +21,77 @@ const expandBtn = document.getElementById("expandBtn");
 function updatePages() {
 
     if (currentPage === coverPage) {
-        // Mostrar solo portada
+        // SOLO LA PORTADA
         leftPage.classList.add("hidden");
         rightPage.classList.remove("hidden");
 
         rightPage.src = `${coverPage}.png`;
+
         indicator.textContent = `Página 1 / ${endPage - startPage + 1}`;
         return;
     }
 
-    // Mostrar dos páginas
+    // DOBLE PÁGINA
     leftPage.classList.remove("hidden");
     rightPage.classList.remove("hidden");
 
-    // Página izquierda (impar)
+    // Página izquierda
     leftPage.src = `${currentPage}.png`;
 
-    // Página derecha (siguiente)
-    const next = currentPage + 1;
-    rightPage.src = next <= endPage ? `${next}.png` : "";
+    // Página derecha
+    let next = currentPage + 1;
 
-    const numShown = currentPage - startPage + 1;
-    indicator.textContent = `Página ${numShown} - ${numShown + 1} / ${endPage - startPage + 1}`;
+    if (next <= endPage) {
+        rightPage.src = `${next}.png`;
+        rightPage.classList.remove("hidden");
+    } else {
+        // si no existe página derecha
+        rightPage.classList.add("hidden");
+    }
+
+    let visualIndex = currentPage - startPage + 1;
+    indicator.textContent = `Página ${visualIndex} / ${endPage - startPage + 1}`;
 }
 
 // -------------------------
 // NAVEGACIÓN
 // -------------------------
 function goPrev() {
+
     if (currentPage === coverPage) return;
 
-    if (currentPage > startPage) {
-        currentPage -= 2;
-        if (currentPage < startPage) currentPage = startPage;
+    if (currentPage === 3) {
+        currentPage = coverPage;
         updatePages();
+        return;
     }
+
+    currentPage -= 2;
+    if (currentPage < 3) currentPage = 3;
+
+    updatePages();
 }
 
 function goNext() {
-    let next = currentPage === coverPage ? currentPage + 1 : currentPage + 2;
+
+    if (currentPage === coverPage) {
+        currentPage = 3;   // Después de portada → páginas 3–4
+        updatePages();
+        return;
+    }
+
+    let next = currentPage + 2;
 
     if (next <= endPage) {
         currentPage = next;
-        updatePages();
+    } else {
+        currentPage = endPage; // última página sola
     }
+
+    updatePages();
 }
 
+// Botones
 prevBtn.onclick = goPrev;
 nextBtn.onclick = goNext;
 
@@ -77,18 +100,14 @@ expandBtn.onclick = () => {
     document.documentElement.requestFullscreen();
 };
 
-// -------------------------
-// CLIC EN LADOS DE LA PANTALLA
-// -------------------------
+// Clic en la pantalla
 document.addEventListener("click", (e) => {
     const mid = window.innerWidth / 2;
     if (e.clientX < mid) goPrev();
     else goNext();
 });
 
-// -------------------------
-// FLECHAS DEL TECLADO
-// -------------------------
+// Flechas del teclado
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") goPrev();
     if (e.key === "ArrowRight") goNext();
