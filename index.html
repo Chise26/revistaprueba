@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>Mi Revista</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: auto;
-    }
-    img {
-      width: 100%;
-      margin: 20px 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Revista</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Mi Revista</h1>
-  <img src="2.png">
-  <img src="3.png">
-  <img src="4.png">
-  <img src="5.png">
-  <img src="6.png">
-  <img src="7.png">
+
+    <div class="viewer-container">
+
+        <img id="pageImage" src="paginas/01.png" alt="Página">
+
+        <div class="controls">
+            <button id="prevBtn">◀ Anterior</button>
+            <span id="pageIndicator">Página 1</span>
+            <button id="nextBtn">Siguiente ▶</button>
+            <button id="expandBtn">⤢ Expandir</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
+
