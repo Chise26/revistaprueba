@@ -7,16 +7,27 @@ body {
 
 .viewer-container {
     margin: 20px auto;
-    width: 90%;
-    max-width: 900px;
+    width: 95%;
+    max-width: 1200px;
 }
 
-img {
-    width: 100%;
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page {
+    width: 48%;
     max-height: 85vh;
     object-fit: contain;
+    background: #fff;
     box-shadow: 0 0 10px #333;
     border-radius: 10px;
+}
+
+.hidden {
+    display: none;
 }
 
 .controls {
@@ -46,3 +57,4 @@ button:hover {
     border-radius: 6px;
     font-weight: bold;
 }
+
