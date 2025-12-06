@@ -1,7 +1,7 @@
 // --------------------------
 // CONFIGURACIÓN
 // --------------------------
-const totalPages = 6;   // ← CAMBIA ESTO AL TOTAL DE PNGs
+const totalPages = 10;   // ← CAMBIA ESTO
 // --------------------------
 
 let currentPage = 1;
@@ -14,7 +14,7 @@ const expandBtn = document.getElementById("expandBtn");
 
 function updatePage() {
     const pageStr = String(currentPage).padStart(2, "0"); // 01, 02, 03…
-    img.src = `${pageStr}.png`;
+    img.src = `${pageStr}.png`;  // ← AHORA SIN /paginas/
     indicator.textContent = `Página ${currentPage} / ${totalPages}`;
 }
 
@@ -38,3 +38,4 @@ expandBtn.onclick = () => {
 
 // Inicializar
 updatePage();
+
