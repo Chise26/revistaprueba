@@ -160,6 +160,85 @@ if (pageWrapper) {
 // -------------------------
 updatePages();
 
+// -------------------------
+// ZOOM + PAN
+// -------------------------
+
+let scale = 1;
+let minScale = 1;
+let maxScale = 4;
+let isPanning = false;
+let startX = 0;
+let startY = 0;
+let originX = 0;
+let originY = 0;
+
+// Aplicar zoom al mover la rueda
+pageWrapper.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    const delta = e.deltaY < 0 ? 0.1 : -0.1; 
+    let newScale = scale + delta;
+
+    newScale = Math.min(maxScale, Math.max(minScale, newScale));
+
+    if (newScale !== scale) {
+        scale = newScale;
+        applyTransform();
+    }
+}, { passive: false });
+
+// Empezar arrastre
+pageWrapper.addEventListener("mousedown", (e) => {
+    if (scale === 1) return; // sin zoom, no arrastra
+
+    isPanning = true;
+    startX = e.clientX - originX;
+    startY = e.clientY - originY;
+});
+
+pageWrapper.addEventListener("mousemove", (e) => {
+    if (!isPanning) return;
+    originX = e.clientX - startX;
+    originY = e.clientY - startY;
+    applyTransform();
+});
+
+pageWrapper.addEventListener("mouseup", () => {
+    isPanning = false;
+});
+
+pageWrapper.addEventListener("mouseleave", () => {
+    isPanning = false;
+});
+
+// Touch para zoom y pan
+pageWrapper.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 1 && scale > 1) {
+        originX += e.touches[0].movementX || 0;
+        originY += e.touches[0].movementY || 0;
+        applyTransform();
+    }
+}, { passive: true });
+
+// Aplicar transformaciones
+function applyTransform() {
+    leftPage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+    rightPage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+}
+
+// Reset zoom cuando se cambia de página
+const originalUpdatePages = updatePages;
+updatePages = function () {
+    scale = 1;
+    originX = 0;
+    originY = 0;
+    applyTransform();
+    originalUpdatePages();
+};
+
+
+
 
 
 
